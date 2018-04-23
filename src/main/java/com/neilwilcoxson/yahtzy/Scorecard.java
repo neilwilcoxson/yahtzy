@@ -21,8 +21,8 @@ public class Scorecard {
 	public static final int SMALL_STRAIGHT = 12;
 	public static final int LARGE_STRAIGHT = 13;
 	public static final int YAHTZY = 14;
-	public static final int CHANCE = 15;
-	public static final int YAHTZY_BONUS = 16;
+	public static final int YAHTZY_BONUS = 15;
+	public static final int CHANCE = 16;
 	public static final int LOWER_TOTAL = 17;
 	public static final int GRAND_TOTAL = 18;
 	
@@ -50,6 +50,8 @@ public class Scorecard {
 		scores[YAHTZY] = new Yahtzy();
 		scores[YAHTZY_BONUS] = new YahtzyBonus();
 		
+		scores[CHANCE] = new Chance();
+		
 		for(int i = LOWER_TOTAL; i <= GRAND_TOTAL; i++) {
 			scores[i] = new Total();
 		}
@@ -60,15 +62,23 @@ public class Scorecard {
 	}
 	
 	public boolean commit(int category, Dice[] dice) {
-		return scores[category].commit(category, dice);
+		boolean result = scores[category].commit(category, dice);
+		
+		updateTotals();
+		
+		return result;
 	}
 	
 	public void updateTotals() {
 		((Total)scores[UPPER_SUBTOTAL]).commit(scores, ACES, SIXES);
 		((UpperBonus)scores[UPPER_BONUS]).commit(scores[UPPER_SUBTOTAL]);
 		((Total)scores[UPPER_TOTAL]).commit(scores, UPPER_SUBTOTAL, UPPER_BONUS);
-		((Total)scores[LOWER_TOTAL]).commit(scores, THREE_OF_A_KIND, YAHTZY_BONUS);
+		((Total)scores[LOWER_TOTAL]).commit(scores, THREE_OF_A_KIND, CHANCE);
 		((Total)scores[GRAND_TOTAL]).commit(scores[UPPER_TOTAL], scores[LOWER_TOTAL]);
+	}
+	
+	public int getScore(int category) {
+		return scores[category].getValue();
 	}
 	
 	public static int sum(Dice[] dice) {

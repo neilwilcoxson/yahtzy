@@ -12,7 +12,7 @@ public class UpperBonus extends ScorecardLine {
 	}
 	
 	public int score(ScorecardLine upperSubtotal) {
-		return upperSubtotal.getValue() > THRESHOLD ? CATEGORY_VALUE : 0;
+		return upperSubtotal.getValue() >= THRESHOLD ? CATEGORY_VALUE : 0;
 	}
 	
 	public void commit(ScorecardLine upperSubtotal) {

@@ -16,4 +16,11 @@ public class YahtzyBonus extends ScorecardLine {
 		return value + CATEGORY_VALUE;
 	}
 	
+	@Override
+	public boolean commit(int category, Dice[] dice) {
+		value = score(category, dice);
+		
+		return true;
+	}
+	
 }

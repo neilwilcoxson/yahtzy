@@ -30,6 +30,10 @@ public class Dice {
 		return value;
 	}
 	
+	public void setValue(int value) {
+		this.value = value;
+	}
+	
 	public static int[] getStatistics() {
 		return statistics;
 	}
