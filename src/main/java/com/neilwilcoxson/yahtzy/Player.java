@@ -31,6 +31,10 @@ public class Player {
 		return scorecard;
 	}
 	
+	public int getTurnsRemaining() {
+		return scorecard.getTurnsRemaining();
+	}
+	
 	public static void removePlayer() {
 		if(numPlayers > 0) {
 			numPlayers--;

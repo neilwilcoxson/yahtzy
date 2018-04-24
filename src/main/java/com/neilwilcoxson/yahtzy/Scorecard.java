@@ -5,6 +5,7 @@ import java.util.Arrays;
 public class Scorecard {
 	protected static final int NUM_CATEGORIES = 19;
 	protected ScorecardLine[] scores = null;
+	protected int turnsRemaining = 13;
 	
 	public static final int ACES = 0;
 	public static final int TWOS = 1;
@@ -65,6 +66,7 @@ public class Scorecard {
 		boolean result = scores[category].commit(category, dice);
 		
 		updateTotals();
+		turnsRemaining--;
 		
 		return result;
 	}
@@ -79,6 +81,10 @@ public class Scorecard {
 	
 	public int getScore(int category) {
 		return scores[category].getValue();
+	}
+	
+	public int getTurnsRemaining() {
+		return turnsRemaining;
 	}
 	
 	public static int sum(Dice[] dice) {

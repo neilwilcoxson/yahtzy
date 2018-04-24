@@ -23,6 +23,11 @@ public class Game extends JPanel implements ActionListener{
 	protected static JButton[] buttons = new JButton[Scorecard.GRAND_TOTAL + 1];
 	
 	protected static JTextField[] fields = new JTextField[Scorecard.GRAND_TOTAL + 1];
+	protected static JTextField[] diceDisplay = new JTextField[5];
+	
+	protected static Player[] players = null;
+	protected static Dice[] dice = null;
+	protected static boolean turnFinished = false;
 	
 	protected static void showGUI() {
 		//frame
@@ -55,7 +60,7 @@ public class Game extends JPanel implements ActionListener{
 		sidePannel.setLayout(layout);
 		
 		JPanel dicePanel = new JPanel();
-		layout = new GridLayout(5,0);
+		layout = new GridLayout(0,2);
 		layout.setHgap(15);
 		layout.setVgap(15);
 		dicePanel.setLayout(layout);
@@ -84,11 +89,23 @@ public class Game extends JPanel implements ActionListener{
 		}
 		
 		//dice
+		for(int i = 0; i < 5; i++) {
+			JLabel label = new JLabel("Dice # " + Integer.toString(i+1));
+			dicePanel.add(label);
+			
+			diceDisplay[i] = new JTextField();
+			diceDisplay[i].setEditable(false);
+			diceDisplay[i].setColumns(5);
+			diceDisplay[i].setText(Integer.toString(i+1));
+			dicePanel.add(diceDisplay[i]);
+		}
 		
 		//labels
 		JLabel header = new JLabel("", JLabel.CENTER);
-		header.setText("Bob's Turn");
 		sidePannel.add(header);
+		
+		JLabel turn = new JLabel("", JLabel.CENTER);
+		sidePannel.add(turn);
 		
 		sidePannel.add(dicePanel);
 		
@@ -99,6 +116,15 @@ public class Game extends JPanel implements ActionListener{
 	}
 	
 	public static void main(String[] args) {
+		players = new Player[1];
+		players[0] = new Player("Bob");
+		
+		dice = new Dice[5];
+		
+		for(int i = 0; i < 5; i++) {
+			dice[i] = new Dice();
+		}
+		
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				showGUI();
@@ -108,7 +134,12 @@ public class Game extends JPanel implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if("Aces".equals(e.getActionCommand())) {
+		if("Roll".equals(e.getActionCommand())) {
+			for(int d = 0; d < dice.length; d++) {
+				dice[d].roll();
+				diceDisplay[d].setText(Integer.toString(dice[d].getValue()));
+			}
+		}else if("Aces".equals(e.getActionCommand())) {
 			System.out.println("Aces");
 		}else if("Twos".equals(e.getActionCommand())) {
 			System.out.println("Twos");
