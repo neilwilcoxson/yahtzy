@@ -43,7 +43,6 @@ public class GUI extends JPanel implements ActionListener {
 	//Player info UI Elements
 	protected static JPanel sidePanel = null;
 	protected static GridLayout sidePanelLayout = null;
-	protected static JLabel playerName = null;
 	protected static JLabel playerTurn = null;
 	
 	//Dice UI Elements
@@ -89,7 +88,7 @@ public class GUI extends JPanel implements ActionListener {
 		
 		menuBar = new JMenuBar();
 		menuBar.setOpaque(true);
-		menuBar.setPreferredSize(new Dimension(200,20));
+		menuBar.setPreferredSize(new Dimension(100,20));
 		mainFrame.setJMenuBar(menuBar);
 		
 		gameMenu = new JMenu("Game");
@@ -131,41 +130,33 @@ public class GUI extends JPanel implements ActionListener {
 		mainGUI = new GUI();
 		mainGUI.setOpaque(true);
 		mainFrame.setContentPane(mainGUI);
-		mainWindowLayout = new GridLayout(0,2);
+		mainWindowLayout = new GridLayout();
 		mainFrame.setLayout(mainWindowLayout);
 	}
 	
 	protected static void drawPlayerDetails() {
 		sidePanel = new JPanel();
-		sidePanelLayout = new GridLayout(2,0);
+		sidePanelLayout = new GridLayout(0,1);
 		sidePanelLayout.setHgap(10);
 		sidePanelLayout.setVgap(10);
 		sidePanel.setLayout(sidePanelLayout);
 		
-		playerName = new JLabel();
-		sidePanel.add(playerName);
-		
 		playerTurn = new JLabel();
+		playerTurn.setText(Game.getPlayerName() + "'s Turn, Rolls Remaining: " + Game.getRollsRemaining());
 		sidePanel.add(playerTurn);
 	}
 	
 	protected static void drawDice() {
 		dicePanel = new JPanel();
-		dicePanelLayout = new GridLayout(0,2);
+		dicePanelLayout = new GridLayout(2,6);
 		dicePanelLayout.setHgap(15);
-		dicePanelLayout.setVgap(15);
+		dicePanelLayout.setVgap(5);
 		dicePanel.setLayout(dicePanelLayout);
 		
 		diceDisplay = new JTextField[Game.NUM_DICE];
 		diceKeepBoxes = new JCheckBox[Game.NUM_DICE];
 		
 		for(int i = 0; i < Game.NUM_DICE; i++) {
-			diceKeepBoxes[i] = new JCheckBox("Keep");
-			diceKeepBoxes[i].setActionCommand(Integer.toString(i));
-			diceKeepBoxes[i].setSelected(false);
-			diceKeepBoxes[i].addActionListener(mainGUI);
-			dicePanel.add(diceKeepBoxes[i]);
-			
 			diceDisplay[i] = new JTextField();
 			diceDisplay[i].setEditable(false);
 			diceDisplay[i].setColumns(5);
@@ -179,6 +170,14 @@ public class GUI extends JPanel implements ActionListener {
 		rollButton.setHorizontalTextPosition(AbstractButton.LEADING);
 		rollButton.addActionListener(mainGUI);
 		dicePanel.add(rollButton);
+		
+		for(int i = 0; i < Game.NUM_DICE; i++) {
+			diceKeepBoxes[i] = new JCheckBox("Keep");
+			diceKeepBoxes[i].setActionCommand(Integer.toString(i));
+			diceKeepBoxes[i].setSelected(false);
+			diceKeepBoxes[i].addActionListener(mainGUI);
+			dicePanel.add(diceKeepBoxes[i]);
+		}
 		
 		sidePanel.add(dicePanel);
 		mainFrame.add(sidePanel);
@@ -204,7 +203,11 @@ public class GUI extends JPanel implements ActionListener {
 			}
 		}
 		
-		scorecards[Game.getCurrentPlayerID()].update();
+		if(!e.getActionCommand().equals("Force Update")) {
+			scorecards[Game.getCurrentPlayerID()].update();
+		}
+		
+		playerTurn.setText(Game.getPlayerName() + "'s Turn, Rolls Remaining: " + Game.getRollsRemaining());
 		
 		switch(Game.getState(Game.getCurrentPlayerID())) {
 		case Game.MUST_ROLL:
@@ -221,6 +224,7 @@ public class GUI extends JPanel implements ActionListener {
 			
 		case Game.MUST_SCORE:
 			rollButton.setEnabled(false);
+			playerTurn.setText(Game.getPlayerName() + "'s Turn, Rolls Remaining: 0");
 			break;
 			
 		case Game.GAME_OVER:

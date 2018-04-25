@@ -30,8 +30,9 @@ public class Game {
 		playerTurn = 0;
 		rollsRemaining = NUM_ROLLS;
 		
-		players = new Player[1];
+		players = new Player[2];
 		players[0] = new Player("Bob");
+		players[1] = new Player("Tim");
 		
 		dice = new Dice[NUM_DICE];
 		
@@ -49,23 +50,7 @@ public class Game {
 	}
 	
 	public static void recordScore(int category) {
-		players[0].getScorecard().commit(category, dice);
-		
-		if(players[0].getTurnsRemaining() != 0) {
-			rollsRemaining = NUM_ROLLS;
-			gameState[playerTurn] = WAITING;
-			
-			playerTurn++;
-			playerTurn %= players.length;
-			
-			System.out.println(playerTurn);
-			
-			gameState[playerTurn] = MUST_ROLL;
-		}else {
-			gameState[playerTurn] = GAME_OVER;
-			playerTurn++;
-			playerTurn %= players.length;
-		}
+		players[playerTurn].getScorecard().commit(category, dice);
 	}
 	
 	public static int getScore(int category) {
@@ -110,16 +95,20 @@ public class Game {
 	}
 	
 	public static int[] getAvailableCategories() {
-		int[] result = new int[players[0].getTurnsRemaining()];
+		int[] result = new int[players[playerTurn].getTurnsRemaining()];
 		int len = 0;
 		
 		for(int i : Scorecard.SCORING_CATEGORIES) {
-			if(!players[0].getScorecard().getUsed(i)) {
+			if(!players[playerTurn].getScorecard().getUsed(i)) {
 				result[len++] = i;
 			}
 		}
 		
 		return result;
+	}
+	
+	public static int getState() {
+		return gameState[playerTurn];
 	}
 	
 	public static int getState(int playerID) {
@@ -130,11 +119,27 @@ public class Game {
 		return players.length;
 	}
 	
+	public static String getPlayerName() {
+		return players[playerTurn].getName();
+	}
+	
 	public static String getPlayerName(int i) {
 		return players[i].getName();
 	}
 	
 	public static int getCurrentPlayerID() {
 		return playerTurn;
+	}
+	
+	public static int getRollsRemaining() {
+		return rollsRemaining;
+	}
+	
+	public static void nextPlayer() {
+		rollsRemaining = NUM_ROLLS;
+		gameState[playerTurn] = WAITING;
+		playerTurn++;
+		playerTurn %= players.length;
+		gameState[playerTurn] = MUST_ROLL;
 	}
 }

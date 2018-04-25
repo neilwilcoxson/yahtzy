@@ -90,12 +90,13 @@ public class ScorecardWindow extends JPanel implements ActionListener{
 				scoreButtons[i].setEnabled(false);
 				scoreFields[i].setText(Integer.toString(Game.getScore(i)));
 				updateTotals();
+				Game.nextPlayer();
 				GUI.update();
 				break;
 			}
 		}
 	
-		switch(Game.getState(Game.getCurrentPlayerID())) {
+		switch(Game.getState()) {
 		case Game.WAITING:
 		case Game.MUST_ROLL:			
 			for(int i : Scorecard.SCORING_CATEGORIES) {
