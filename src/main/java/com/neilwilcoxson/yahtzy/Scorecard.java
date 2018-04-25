@@ -27,6 +27,8 @@ public class Scorecard {
 	public static final int LOWER_TOTAL = 17;
 	public static final int GRAND_TOTAL = 18;
 	
+	public static final int[] TOTALS = {UPPER_SUBTOTAL, UPPER_BONUS, UPPER_TOTAL, LOWER_TOTAL, GRAND_TOTAL};
+	
 	public static final String[] CATEGORY_NAMES = {"Aces","Twos","Threes", "Fours", "Fives", "Sixes",
 			"Upper Subtotal", "Bonus", "Upper Total", "Three of a Kind", "Four of a Kind", "Full House",
 			"Small Straight", "Large Straight", "Yahtzy", "Yahtzy Bonus", "Chance", "Lower Total", "Grand Total"};

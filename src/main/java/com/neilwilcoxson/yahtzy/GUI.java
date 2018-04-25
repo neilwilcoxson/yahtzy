@@ -108,6 +108,13 @@ public class GUI extends JPanel implements ActionListener{
 			}
 		}
 		
+		scoreButtons[Scorecard.UPPER_SUBTOTAL].setEnabled(false);
+		scoreButtons[Scorecard.UPPER_BONUS].setEnabled(false);
+		scoreButtons[Scorecard.UPPER_TOTAL].setEnabled(false);
+		scoreButtons[Scorecard.LOWER_TOTAL].setEnabled(false);
+		scoreButtons[Scorecard.YAHTZY_BONUS].setEnabled(false);
+		scoreButtons[Scorecard.GRAND_TOTAL].setEnabled(false);
+		
 		mainFrame.add(scorecardPanel);
 	}
 	
@@ -159,6 +166,12 @@ public class GUI extends JPanel implements ActionListener{
 		sidePanel.add(dicePanel);
 		mainFrame.add(sidePanel);
 	}
+	
+	protected static void updateTotals() {
+		for(int i : Scorecard.TOTALS) {
+			scoreFields[i].setText(Integer.toString(Game.getScore(i)));
+		}
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -166,18 +179,27 @@ public class GUI extends JPanel implements ActionListener{
 		if(e.getActionCommand().matches("[0-9]+")) {
 			int num = Integer.parseInt(e.getActionCommand());
 			if(num < Game.NUM_DICE) {
-				System.out.println("Kept dice " + num);
+				Game.setKeep(num);
 			}
 		}
 		//check if player is rolling dice
 		else if(e.getActionCommand().equals("Roll")) {
-			System.out.println("Rolling the dice");
+			Game.roll();
+			
+			int[] diceVals = Game.getDiceValues();
+			
+			for(int i = 0; i < Game.NUM_DICE; i++) {
+				diceDisplay[i].setText(Integer.toString(diceVals[i]));
+			}
 		}
 		//player must be selecting a category
 		else {
 			for(int i = Scorecard.ACES; i <= Scorecard.GRAND_TOTAL; i++) {
 				if(e.getActionCommand().equals(Scorecard.CATEGORY_NAMES[i])) {
-					System.out.println(i);
+					Game.recordScore(i);
+					scoreButtons[i].setEnabled(false);
+					scoreFields[i].setText(Integer.toString(Game.getScore(i)));
+					updateTotals();
 					break;
 				}
 			}
