@@ -195,9 +195,10 @@ class ScorecardTest {
 	
 	@Test
 	void almostSmallStraight() {
-		for(int i = 0; i < 4; i++) {
-			dice[i].setValue(i+1);
-		}
+		dice[0].setValue(1);
+		dice[1].setValue(2);
+		dice[2].setValue(3);
+		dice[3].setValue(5);
 		dice[4].setValue(6);
 		
 		scorecard.commit(Scorecard.SMALL_STRAIGHT, dice);
