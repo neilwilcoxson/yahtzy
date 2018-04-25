@@ -28,6 +28,8 @@ public class Scorecard {
 	public static final int GRAND_TOTAL = 18;
 	
 	public static final int[] TOTALS = {UPPER_SUBTOTAL, UPPER_BONUS, UPPER_TOTAL, LOWER_TOTAL, GRAND_TOTAL};
+	public static final int[] SCORING_CATEGORIES = {ACES, TWOS, THREES, FOURS, FIVES, SIXES,
+			THREE_OF_A_KIND, FOUR_OF_A_KIND, FULL_HOUSE, SMALL_STRAIGHT, LARGE_STRAIGHT, YAHTZY, CHANCE};
 	
 	public static final String[] CATEGORY_NAMES = {"Aces","Twos","Threes", "Fours", "Fives", "Sixes",
 			"Upper Subtotal", "Bonus", "Upper Total", "Three of a Kind", "Four of a Kind", "Full House",
@@ -91,6 +93,10 @@ public class Scorecard {
 	
 	public int getTurnsRemaining() {
 		return turnsRemaining;
+	}
+	
+	public boolean getUsed(int category) {
+		return scores[category].used();
 	}
 	
 	public static int sum(Dice[] dice) {

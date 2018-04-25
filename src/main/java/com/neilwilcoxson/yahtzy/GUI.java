@@ -93,6 +93,7 @@ public class GUI extends JPanel implements ActionListener{
 			scoreButtons[i].setActionCommand(Scorecard.CATEGORY_NAMES[i]);
 			scoreButtons[i].setVerticalTextPosition(AbstractButton.CENTER);
 			scoreButtons[i].setHorizontalTextPosition(AbstractButton.LEADING);
+			scoreButtons[i].setEnabled(false);
 			scoreButtons[i].addActionListener(mainGUI);
 			scorecardPanel.add(scoreButtons[i]);
 			
@@ -107,13 +108,6 @@ public class GUI extends JPanel implements ActionListener{
 				scorecardPanel.add(new JLabel(""));
 			}
 		}
-		
-		scoreButtons[Scorecard.UPPER_SUBTOTAL].setEnabled(false);
-		scoreButtons[Scorecard.UPPER_BONUS].setEnabled(false);
-		scoreButtons[Scorecard.UPPER_TOTAL].setEnabled(false);
-		scoreButtons[Scorecard.LOWER_TOTAL].setEnabled(false);
-		scoreButtons[Scorecard.YAHTZY_BONUS].setEnabled(false);
-		scoreButtons[Scorecard.GRAND_TOTAL].setEnabled(false);
 		
 		mainFrame.add(scorecardPanel);
 	}
@@ -152,7 +146,7 @@ public class GUI extends JPanel implements ActionListener{
 			diceDisplay[i] = new JTextField();
 			diceDisplay[i].setEditable(false);
 			diceDisplay[i].setColumns(5);
-			diceDisplay[i].setText(Integer.toString(i+1));
+			diceDisplay[i].setText(Integer.toString(Game.getDiceValues()[i]));
 			dicePanel.add(diceDisplay[i]);
 		}
 		
@@ -205,5 +199,38 @@ public class GUI extends JPanel implements ActionListener{
 			}
 		}
 		
+		switch(Game.getState()) {
+		case Game.MUST_ROLL:
+			rollButton.setEnabled(true);
+			
+			for(int i : Scorecard.SCORING_CATEGORIES) {
+				scoreButtons[i].setEnabled(false);
+			}
+			
+			for(int i = 0; i < Game.NUM_DICE; i++) {
+				diceKeepBoxes[i].setSelected(false);
+			}
+			break;
+		case Game.MAY_SCORE:
+			rollButton.setEnabled(true);
+			
+			int[] availableCategories = Game.getAvailableCategories();
+			
+			for(int i : availableCategories) {
+				scoreButtons[i].setEnabled(true);
+			}
+			break;
+		case Game.MUST_SCORE:
+			rollButton.setEnabled(false);
+			break;
+		case Game.GAME_OVER:
+			rollButton.setEnabled(false);
+			
+			for(int i = 0; i < Game.NUM_DICE; i++) {
+				diceKeepBoxes[i].setSelected(false);
+			}
+			
+			break;
+		}
 	}
 }

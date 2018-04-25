@@ -18,10 +18,8 @@ public class Straight extends ScorecardLine {
 		for(int i = 0; i < values.length - 1; i++) {
 			if(values[i] != values[i+1] - 1) {
 				if(category == Scorecard.SMALL_STRAIGHT) {
-					if(i == 0) {
+					if(!badOrder) {
 						badOrder = true;
-						continue;
-					}else if(i == values.length - 1 && !badOrder) {
 						continue;
 					}
 				}

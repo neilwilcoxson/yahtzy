@@ -40,8 +40,12 @@ public class Dice {
 		this.value = value;
 	}
 	
-	public void setKeep() {
+	public void toggleKeep() {
 		keep = !keep;
+	}
+	
+	public void removeKeep() {
+		keep = false;
 	}
 	
 	public boolean getKeep() {
