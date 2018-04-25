@@ -27,9 +27,10 @@ public class ScorecardWindow extends JPanel implements ActionListener{
 	protected JPanel scorecardPanel = null;
 	protected GridLayout scorecardLayout = null;
 	
-	protected void drawScorecard(int playerNumber) {
+	protected void drawScorecard(int x, int y) {
 		scorecardFrame = new JFrame(playerName);
 		scorecardFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		scorecardFrame.setLocation(x, y);
 		
 		scorecardPanel = new JPanel();
 		scorecardLayout = new GridLayout(0,2);

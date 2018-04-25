@@ -67,15 +67,15 @@ public class GUI extends JPanel implements ActionListener {
 		drawWindow();
 		drawPlayerDetails();
 		drawDice();
+		mainFrame.pack();
 		
 		scorecards = new ScorecardWindow[Game.getNumPlayers()];
 		
 		for(int i = 0; i < scorecards.length; i++) {
 			scorecards[i] = new ScorecardWindow(Game.getPlayerName(i));
-			scorecards[i].drawScorecard(i);
+			scorecards[i].drawScorecard(i*300, mainFrame.getHeight());
 		}
-		
-		mainFrame.pack();
+
 		mainFrame.setVisible(true);
 	}
 	
