@@ -17,13 +17,13 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class GUI extends JPanel implements ActionListener{
+public class GUI extends JPanel implements ActionListener {
 	private static final long serialVersionUID = -5934960568302094412L;
 	
 	//constant values
 	protected static final String WINDOW_TITLE = "Yahtzy";
 	
-	//Window UI Elements
+	//Main Window UI Elements
 	protected static JFrame mainFrame = null;
 	protected static GridLayout mainWindowLayout = null;
 	protected static GUI mainGUI = null;
@@ -40,12 +40,6 @@ public class GUI extends JPanel implements ActionListener{
 	protected static JMenuItem helpOption = null;
 	protected static JMenuItem aboutOption = null;
 	
-	//Scorecard UI Elements
-	protected static JButton[] scoreButtons = null;
-	protected static JTextField[] scoreFields = null;
-	protected static JPanel scorecardPanel = null;
-	protected static GridLayout scorecardLayout = null;
-	
 	//Player info UI Elements
 	protected static JPanel sidePanel = null;
 	protected static GridLayout sidePanelLayout = null;
@@ -59,6 +53,9 @@ public class GUI extends JPanel implements ActionListener{
 	protected static JTextField[] diceDisplay = null;
 	protected static JButton rollButton = null;
 	
+	//Scorecard Display
+	protected static ScorecardWindow[] scorecards = null;
+	
 	public static void draw() {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -69,9 +66,15 @@ public class GUI extends JPanel implements ActionListener{
 	
 	protected static void doDrawGUI() {
 		drawWindow();
-		drawScorecard();
 		drawPlayerDetails();
 		drawDice();
+		
+		scorecards = new ScorecardWindow[Game.getNumPlayers()];
+		
+		for(int i = 0; i < scorecards.length; i++) {
+			scorecards[i] = new ScorecardWindow(Game.getPlayerName(i));
+			scorecards[i].drawScorecard(i);
+		}
 		
 		mainFrame.pack();
 		mainFrame.setVisible(true);
@@ -132,40 +135,6 @@ public class GUI extends JPanel implements ActionListener{
 		mainFrame.setLayout(mainWindowLayout);
 	}
 	
-	protected static void drawScorecard() {
-		scorecardPanel = new JPanel();
-		scorecardLayout = new GridLayout(0,2);
-		scorecardLayout.setHgap(5);
-		scorecardLayout.setVgap(5);
-		scorecardPanel.setLayout(scorecardLayout);
-		
-		scoreButtons = new JButton[Scorecard.GRAND_TOTAL + 1];
-		scoreFields = new JTextField[Scorecard.GRAND_TOTAL + 1];
-		
-		for(int i = Scorecard.ACES; i <= Scorecard.GRAND_TOTAL; i++) {
-			scoreButtons[i] = new JButton(Scorecard.CATEGORY_NAMES[i]);
-			scoreButtons[i].setActionCommand(Scorecard.CATEGORY_NAMES[i]);
-			scoreButtons[i].setVerticalTextPosition(AbstractButton.CENTER);
-			scoreButtons[i].setHorizontalTextPosition(AbstractButton.LEADING);
-			scoreButtons[i].setEnabled(false);
-			scoreButtons[i].addActionListener(mainGUI);
-			scorecardPanel.add(scoreButtons[i]);
-			
-			scoreFields[i] = new JTextField();
-			scoreFields[i].setEditable(false);
-			scoreFields[i].setColumns(5);
-			scorecardPanel.add(scoreFields[i]);
-			
-			//create division between upper and lower sections
-			if(i == Scorecard.UPPER_TOTAL) {
-				scorecardPanel.add(new JLabel(""));
-				scorecardPanel.add(new JLabel(""));
-			}
-		}
-		
-		mainFrame.add(scorecardPanel);
-	}
-	
 	protected static void drawPlayerDetails() {
 		sidePanel = new JPanel();
 		sidePanelLayout = new GridLayout(2,0);
@@ -214,22 +183,6 @@ public class GUI extends JPanel implements ActionListener{
 		sidePanel.add(dicePanel);
 		mainFrame.add(sidePanel);
 	}
-	
-	protected static void updateTotals() {
-		for(int i : Scorecard.TOTALS) {
-			scoreFields[i].setText(Integer.toString(Game.getScore(i)));
-		}
-	}
-	
-	protected static void reset() {
-		for(JTextField t : scoreFields) {
-			t.setText("");
-		}
-		
-		for(JButton b : scoreButtons) {
-			b.setEnabled(false);
-		}
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -250,43 +203,26 @@ public class GUI extends JPanel implements ActionListener{
 				diceDisplay[i].setText(Integer.toString(diceVals[i]));
 			}
 		}
-		//player must be selecting a category
-		else {
-			for(int i = Scorecard.ACES; i <= Scorecard.GRAND_TOTAL; i++) {
-				if(e.getActionCommand().equals(Scorecard.CATEGORY_NAMES[i])) {
-					Game.recordScore(i);
-					scoreButtons[i].setEnabled(false);
-					scoreFields[i].setText(Integer.toString(Game.getScore(i)));
-					updateTotals();
-					break;
-				}
-			}
-		}
 		
-		switch(Game.getState()) {
+		scorecards[Game.getCurrentPlayerID()].update();
+		
+		switch(Game.getState(Game.getCurrentPlayerID())) {
 		case Game.MUST_ROLL:
 			rollButton.setEnabled(true);
-			
-			for(int i : Scorecard.SCORING_CATEGORIES) {
-				scoreButtons[i].setEnabled(false);
-			}
 			
 			for(int i = 0; i < Game.NUM_DICE; i++) {
 				diceKeepBoxes[i].setSelected(false);
 			}
 			break;
+			
 		case Game.MAY_SCORE:
 			rollButton.setEnabled(true);
-			
-			int[] availableCategories = Game.getAvailableCategories();
-			
-			for(int i : availableCategories) {
-				scoreButtons[i].setEnabled(true);
-			}
 			break;
+			
 		case Game.MUST_SCORE:
 			rollButton.setEnabled(false);
 			break;
+			
 		case Game.GAME_OVER:
 			rollButton.setEnabled(false);
 			
@@ -300,6 +236,17 @@ public class GUI extends JPanel implements ActionListener{
 			}
 			
 			break;
+			
 		}
+	}
+	
+	public static void reset() {
+		for(int i = 0; i < scorecards.length; i++) {
+			scorecards[i].reset();
+		}
+	}
+	
+	public static void update() {
+		mainGUI.actionPerformed(new ActionEvent(mainGUI, 0,"Force Update"));
 	}
 }

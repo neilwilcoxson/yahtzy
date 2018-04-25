@@ -5,17 +5,18 @@ public class Game {
 	public static final int NUM_ROLLS = 3;
 	
 	//various states of the game
-	public static final int MUST_ROLL = 0;
-	public static final int MAY_SCORE = 1;
-	public static final int MUST_SCORE = 2;
-	public static final int GAME_OVER = 3;
+	public static final int WAITING = 0;
+	public static final int MUST_ROLL = 1;
+	public static final int MAY_SCORE = 2;
+	public static final int MUST_SCORE = 3;
+	public static final int GAME_OVER = 4;
 	
 	protected static Player[] players = null;
 	protected static Dice[] dice = null;
 	
 	protected static int playerTurn;
 	protected static int rollsRemaining;
-	protected static int gameState;
+	protected static int[] gameState;
 	
 	//IDEA: have dice in separate window from scorecard
 	//IDEA: have possible scores pop up when mouse hovers over category
@@ -28,7 +29,6 @@ public class Game {
 	public static void initGame() {
 		playerTurn = 0;
 		rollsRemaining = NUM_ROLLS;
-		gameState = MUST_ROLL;
 		
 		players = new Player[1];
 		players[0] = new Player("Bob");
@@ -38,6 +38,14 @@ public class Game {
 		for(int i = 0; i < NUM_DICE; i++) {
 			dice[i] = new Dice();
 		}
+		
+		gameState = new int[players.length];
+		
+		gameState[0] = MUST_ROLL;
+		
+		for(int i = 1; i < gameState.length; i++) {
+			gameState[i] = WAITING;
+		}
 	}
 	
 	public static void recordScore(int category) {
@@ -45,14 +53,23 @@ public class Game {
 		
 		if(players[0].getTurnsRemaining() != 0) {
 			rollsRemaining = NUM_ROLLS;
-			gameState = MUST_ROLL;
+			gameState[playerTurn] = WAITING;
+			
+			playerTurn++;
+			playerTurn %= players.length;
+			
+			System.out.println(playerTurn);
+			
+			gameState[playerTurn] = MUST_ROLL;
 		}else {
-			gameState = GAME_OVER;
+			gameState[playerTurn] = GAME_OVER;
+			playerTurn++;
+			playerTurn %= players.length;
 		}
 	}
 	
 	public static int getScore(int category) {
-		return players[0].getScorecard().getScore(category);
+		return players[playerTurn].getScorecard().getScore(category);
 	}
 	
 	public static void setKeep(int flipKeep) {
@@ -73,12 +90,12 @@ public class Game {
 		rollsRemaining--;
 		
 		if(rollsRemaining <= NUM_ROLLS-1) {
-			gameState = MAY_SCORE;
+			gameState[playerTurn] = MAY_SCORE;
 		}
 		
 		if(rollsRemaining == 0) {
 			rollsRemaining = 3;
-			gameState = MUST_SCORE;
+			gameState[playerTurn] = MUST_SCORE;
 		}
 	}
 	
@@ -105,8 +122,19 @@ public class Game {
 		return result;
 	}
 	
-	public static int getState() {
-		return gameState;
+	public static int getState(int playerID) {
+		return gameState[playerID];
 	}
-
+	
+	public static int getNumPlayers() {
+		return players.length;
+	}
+	
+	public static String getPlayerName(int i) {
+		return players[i].getName();
+	}
+	
+	public static int getCurrentPlayerID() {
+		return playerTurn;
+	}
 }
