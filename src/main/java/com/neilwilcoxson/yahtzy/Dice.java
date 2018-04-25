@@ -11,8 +11,8 @@ public class Dice {
 		if(statistics == null) {
 			statistics = new int[MAX_VALUE-MIN_VALUE+1];
 			
-			for(int i = MIN_VALUE; i < MAX_VALUE; i++) {
-				statistics[i % (MAX_VALUE - MIN_VALUE + 1)] = 0;
+			for(int i = 0; i < MAX_VALUE-MIN_VALUE+1; i++) {
+				statistics[i] = 0;
 			}
 		}
 		

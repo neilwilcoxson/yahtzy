@@ -4,12 +4,16 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -21,9 +25,20 @@ public class GUI extends JPanel implements ActionListener{
 	
 	//Window UI Elements
 	protected static JFrame mainFrame = null;
-	protected static JMenuBar menuBar = null;
 	protected static GridLayout mainWindowLayout = null;
 	protected static GUI mainGUI = null;
+	protected static MenuHelper menuHelper = null;
+	
+	//Menu bar UI Elements
+	protected static JMenuBar menuBar = null;
+	protected static JMenu gameMenu = null;
+	protected static JMenuItem newGameOption = null;
+	protected static JMenuItem highScoresOption = null;
+	protected static JMenuItem quitOption = null;
+	
+	protected static JMenu helpMenu = null;
+	protected static JMenuItem helpOption = null;
+	protected static JMenuItem aboutOption = null;
 	
 	//Scorecard UI Elements
 	protected static JButton[] scoreButtons = null;
@@ -63,6 +78,9 @@ public class GUI extends JPanel implements ActionListener{
 	}
 	
 	protected static void drawWindow() {
+		mainGUI = new GUI();
+		menuHelper = new MenuHelper();
+		
 		mainFrame = new JFrame(WINDOW_TITLE);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -70,6 +88,42 @@ public class GUI extends JPanel implements ActionListener{
 		menuBar.setOpaque(true);
 		menuBar.setPreferredSize(new Dimension(200,20));
 		mainFrame.setJMenuBar(menuBar);
+		
+		gameMenu = new JMenu("Game");
+		
+		newGameOption = new JMenuItem("New Game");
+		newGameOption.setMnemonic(KeyEvent.VK_N);
+		newGameOption.setActionCommand("New Game");
+		newGameOption.addActionListener(menuHelper);
+		gameMenu.add(newGameOption);
+		
+		highScoresOption = new JMenuItem("View High Scores");
+		highScoresOption.setActionCommand("View Scores");
+		highScoresOption.addActionListener(menuHelper);
+		gameMenu.add(highScoresOption);
+		
+		menuBar.add(gameMenu);
+		
+		quitOption = new JMenuItem("Quit");
+		quitOption.setMnemonic(KeyEvent.VK_Q);
+		quitOption.setActionCommand("Quit");
+		quitOption.addActionListener(menuHelper);
+		gameMenu.add(quitOption);
+		
+		helpMenu = new JMenu("Help");
+		
+		helpOption = new JMenuItem("Help");
+		helpOption.setMnemonic(KeyEvent.VK_F1);
+		helpOption.setActionCommand("Help");
+		helpOption.addActionListener(menuHelper);
+		helpMenu.add(helpOption);
+		
+		aboutOption = new JMenuItem("About");
+		aboutOption.setActionCommand("About");
+		aboutOption.addActionListener(menuHelper);
+		helpMenu.add(aboutOption);
+		
+		menuBar.add(helpMenu);
 		
 		mainGUI = new GUI();
 		mainGUI.setOpaque(true);
@@ -166,6 +220,16 @@ public class GUI extends JPanel implements ActionListener{
 			scoreFields[i].setText(Integer.toString(Game.getScore(i)));
 		}
 	}
+	
+	protected static void reset() {
+		for(JTextField t : scoreFields) {
+			t.setText("");
+		}
+		
+		for(JButton b : scoreButtons) {
+			b.setEnabled(false);
+		}
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -228,6 +292,11 @@ public class GUI extends JPanel implements ActionListener{
 			
 			for(int i = 0; i < Game.NUM_DICE; i++) {
 				diceKeepBoxes[i].setSelected(false);
+			}
+			
+			System.out.println("Dice statistics:");
+			for(int i = 0; i < 6; i++) {
+				System.out.println((i+1) + ": " + Dice.getStatistics()[i]);
 			}
 			
 			break;

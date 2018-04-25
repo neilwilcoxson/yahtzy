@@ -21,12 +21,11 @@ public class Game {
 	//IDEA: have possible scores pop up when mouse hovers over category
 	
 	public static void main(String[] args) {
+		GUI.draw();
 		initGame();
 	}
 	
 	public static void initGame() {
-		GUI.draw();
-		
 		playerTurn = 0;
 		rollsRemaining = NUM_ROLLS;
 		gameState = MUST_ROLL;
