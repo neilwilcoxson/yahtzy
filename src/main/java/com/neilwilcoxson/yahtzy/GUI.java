@@ -195,6 +195,7 @@ public class GUI extends JPanel implements ActionListener {
 			diceDisplay[i].setEditable(false);
 			diceDisplay[i].setColumns(5);
 			diceDisplay[i].setText(Integer.toString(Game.getDiceValues()[i]));
+			diceDisplay[i].setEnabled(false);
 			dicePanel.add(diceDisplay[i]);
 		}
 		
@@ -269,6 +270,7 @@ public class GUI extends JPanel implements ActionListener {
 			rollButton.setEnabled(true);
 			
 			for(int i = 0; i < Game.NUM_DICE; i++) {
+				diceDisplay[i].setEnabled(false);
 				diceKeepBoxes[i].setSelected(false);
 			}
 			break;
@@ -276,6 +278,10 @@ public class GUI extends JPanel implements ActionListener {
 		case Game.MAY_SCORE:
 			rollButton.setEnabled(true);
 			scorecards[Game.getCurrentPlayerID()].showOptions();
+			
+			for(int i = 0; i < Game.NUM_DICE; i++) {
+				diceDisplay[i].setEnabled(true);
+			}
 			break;
 			
 		case Game.MUST_SCORE:
