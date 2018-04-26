@@ -16,6 +16,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 
 public class GUI extends JPanel implements ActionListener {
@@ -48,6 +50,7 @@ public class GUI extends JPanel implements ActionListener {
 	protected static JCheckBox[] diceKeepBoxes = null;
 	protected static JTextField[] diceDisplay = null;
 	protected static JButton rollButton = null;
+	protected static JTable diceTable = null;
 	
 	//Scorecard Display
 	protected static ScorecardWindow[] scorecards = null;
@@ -107,16 +110,21 @@ public class GUI extends JPanel implements ActionListener {
 		drawWindow();
 		drawPlayerDetails();
 		drawDice();
+		
 		mainFrame.pack();
 		
+		drawScorecards();
+		
+		mainFrame.setVisible(true);
+	}
+	
+	public static void drawScorecards(){
 		scorecards = new ScorecardWindow[Game.getNumPlayers()];
 		
 		for(int i = 0; i < scorecards.length; i++) {
 			scorecards[i] = new ScorecardWindow(Game.getPlayerName(i));
 			scorecards[i].drawScorecard(i*300, mainFrame.getHeight());
 		}
-
-		mainFrame.setVisible(true);
 	}
 	
 	protected static void drawWindow() {
@@ -207,6 +215,27 @@ public class GUI extends JPanel implements ActionListener {
 		sidePanel.add(dicePanel);
 		mainFrame.add(sidePanel);
 	}
+	
+	protected static void displayDiceStatistics() {
+		//display dice statistics
+		int[] stats = Dice.getStatistics();
+		Object[][] data = new Object[stats.length][2];
+		
+		for(int i = 0; i < stats.length; i++) {
+			data[i][0] = i+1;
+			data[i][1] = stats[i];
+		}
+		
+		String[] columnNames = {"Value", "Number of Occurrences"};
+		
+		diceTable = new JTable(data, columnNames);
+		diceTable.setPreferredScrollableViewportSize(new Dimension(325,100));
+		diceTable.setFillsViewportHeight(true);
+		
+		JScrollPane scrollPane = new JScrollPane(diceTable);
+		
+		JOptionPane.showMessageDialog(null, scrollPane, "Dice Statistics", JOptionPane.DEFAULT_OPTION);
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -263,11 +292,7 @@ public class GUI extends JPanel implements ActionListener {
 			}
 			
 			Game.saveHighScores();
-			
-			System.out.println("Dice statistics:");
-			for(int i = 0; i < 6; i++) {
-				System.out.println((i+1) + ": " + Dice.getStatistics()[i]);
-			}
+			GUI.displayDiceStatistics();
 			
 			break;
 			

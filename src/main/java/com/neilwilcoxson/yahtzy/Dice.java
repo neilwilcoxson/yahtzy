@@ -59,4 +59,12 @@ public class Dice {
 	public static int[] getStatistics() {
 		return statistics;
 	}
+	
+	public static void reset() {
+		synchronized(mutex) {
+			for(int i = 0; i < MAX_VALUE-MIN_VALUE+1; i++) {
+				statistics[i] = 0;
+			}
+		}
+	}
 }
