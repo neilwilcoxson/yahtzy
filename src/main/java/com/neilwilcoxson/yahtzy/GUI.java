@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -61,6 +62,24 @@ public class GUI extends JPanel implements ActionListener {
 				doDrawGUI();
 			}
 		});
+	}
+	
+	public static void config() {
+		int numPlayers = 0;
+		
+		do {
+			String s = JOptionPane.showInputDialog("Enter number of players");
+			numPlayers = Integer.parseInt(s);
+		}while(numPlayers <= 0);
+		
+		JPanel namePromptPanel = new JPanel(new GridLayout(0,1));
+		JTextField[] nameEntries = new JTextField[numPlayers];
+		
+		for(int i = 0; i < numPlayers; i++) {
+			namePromptPanel.add(nameEntries[i]);
+		}
+		
+		//TODO resume here
 	}
 	
 	protected static void doDrawGUI() {

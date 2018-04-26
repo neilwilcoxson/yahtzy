@@ -24,6 +24,7 @@ public class Game {
 	//IDEA: have possible scores pop up when mouse hovers over category
 	
 	public static void main(String[] args) {
+		GUI.config();
 		GUI.draw();
 		initGame();
 	}
