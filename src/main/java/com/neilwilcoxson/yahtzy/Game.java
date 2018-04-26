@@ -1,5 +1,7 @@
 package com.neilwilcoxson.yahtzy;
 
+import java.io.File;
+
 public class Game {
 	public static final int NUM_DICE = 5;
 	public static final int NUM_ROLLS = 3;
@@ -51,6 +53,10 @@ public class Game {
 	
 	public static void recordScore(int category) {
 		players[playerTurn].getScorecard().commit(category, dice);
+		
+		if(players[playerTurn].getTurnsRemaining() == 0) {
+			gameState[playerTurn] = GAME_OVER;
+		}
 	}
 	
 	public static int getScore(int category) {
@@ -137,9 +143,33 @@ public class Game {
 	
 	public static void nextPlayer() {
 		rollsRemaining = NUM_ROLLS;
-		gameState[playerTurn] = WAITING;
+		if(gameState[playerTurn] != GAME_OVER) {
+			gameState[playerTurn] = WAITING;
+		}
+		
 		playerTurn++;
 		playerTurn %= players.length;
-		gameState[playerTurn] = MUST_ROLL;
+		
+		if(gameState[playerTurn] != GAME_OVER) {
+			gameState[playerTurn] = MUST_ROLL;
+		}
+	}
+	
+	public static void saveHighScores() {
+		HighScores hs = null;
+		
+		File f = new File(HighScores.FILENAME);
+		
+		if(f.exists() && !f.isDirectory()) {
+			hs = HighScores.load();
+		}else {
+			hs = new HighScores();
+		}
+		
+		for(Player p : players) {
+			hs.add(new Record(p));
+		}
+		
+		HighScores.save(hs);
 	}
 }

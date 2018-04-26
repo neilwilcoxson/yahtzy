@@ -234,6 +234,8 @@ public class GUI extends JPanel implements ActionListener {
 				diceKeepBoxes[i].setSelected(false);
 			}
 			
+			Game.saveHighScores();
+			
 			System.out.println("Dice statistics:");
 			for(int i = 0; i < 6; i++) {
 				System.out.println((i+1) + ": " + Dice.getStatistics()[i]);
