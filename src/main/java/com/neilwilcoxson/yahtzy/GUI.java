@@ -229,6 +229,7 @@ public class GUI extends JPanel implements ActionListener {
 			
 		case Game.GAME_OVER:
 			rollButton.setEnabled(false);
+			playerTurn.setText("Game Over");
 			
 			for(int i = 0; i < Game.NUM_DICE; i++) {
 				diceKeepBoxes[i].setSelected(false);
@@ -247,6 +248,12 @@ public class GUI extends JPanel implements ActionListener {
 	}
 	
 	public static void reset() {
+		rollButton.setEnabled(true);
+		
+		for(int i = 0; i < Game.NUM_DICE; i++) {
+			diceKeepBoxes[i].setSelected(false);
+		}
+		
 		for(int i = 0; i < scorecards.length; i++) {
 			scorecards[i].reset();
 		}
