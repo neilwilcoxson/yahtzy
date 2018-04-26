@@ -245,12 +245,13 @@ public class GUI extends JPanel implements ActionListener {
 			
 		case Game.MAY_SCORE:
 			rollButton.setEnabled(true);
-			//scorecards[Game.getCurrentPlayerID()]
+			scorecards[Game.getCurrentPlayerID()].showOptions();
 			break;
 			
 		case Game.MUST_SCORE:
 			rollButton.setEnabled(false);
 			playerTurn.setText(Game.getPlayerName() + "'s Turn, Rolls Remaining: 0");
+			scorecards[Game.getCurrentPlayerID()].showOptions();
 			break;
 			
 		case Game.GAME_OVER:

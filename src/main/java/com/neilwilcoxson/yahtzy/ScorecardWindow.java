@@ -27,7 +27,7 @@ public class ScorecardWindow extends JPanel implements ActionListener{
 	protected JPanel scorecardPanel = null;
 	protected GridLayout scorecardLayout = null;
 	
-	protected void drawScorecard(int x, int y) {
+	public void drawScorecard(int x, int y) {
 		scorecardFrame = new JFrame(playerName);
 		scorecardFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		scorecardFrame.setLocation(x, y);
@@ -67,13 +67,22 @@ public class ScorecardWindow extends JPanel implements ActionListener{
 		scorecardFrame.setVisible(true);
 	}
 	
-	protected void updateTotals() {
+	public void showOptions() {
+		int[] availableCategories = Game.getAvailableCategories();
+		
+		for(int i : availableCategories) {
+			scoreFields[i].setText(Integer.toString(Game.calculateScore(i)));
+			scoreFields[i].setEnabled(false);
+		}
+	}
+	
+	public void updateTotals() {
 		for(int i : Scorecard.TOTALS) {
 			scoreFields[i].setText(Integer.toString(Game.getScore(i)));
 		}
 	}
 	
-	protected void reset() {
+	public void reset() {
 		for(JTextField t : scoreFields) {
 			t.setText("");
 		}
@@ -90,6 +99,7 @@ public class ScorecardWindow extends JPanel implements ActionListener{
 				Game.recordScore(i);
 				scoreButtons[i].setEnabled(false);
 				scoreFields[i].setText(Integer.toString(Game.getScore(i)));
+				scoreFields[i].setEnabled(true);
 				updateTotals();
 				Game.nextPlayer();
 				GUI.update();
