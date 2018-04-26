@@ -22,8 +22,8 @@ public class Dice {
 	
 	public int roll() {
 		if(!keep) {
-		//select random value in given range
-		value = (int)(Math.random() * 1000 % MAX_VALUE + MIN_VALUE);
+			//select random value in given range
+			value = (int)(Math.random() * 1000 % MAX_VALUE + MIN_VALUE);
 		
 		//record the selection of that value in the statistics
 		statistics[value % (MAX_VALUE - MIN_VALUE + 1)]++;

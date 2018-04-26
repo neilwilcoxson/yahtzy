@@ -27,7 +27,7 @@ public class Scorecard {
 	public static final int LOWER_TOTAL = 17;
 	public static final int GRAND_TOTAL = 18;
 	
-	public static final int[] TOTALS = {UPPER_SUBTOTAL, UPPER_BONUS, UPPER_TOTAL, LOWER_TOTAL, GRAND_TOTAL};
+	public static final int[] TOTALS = {UPPER_SUBTOTAL, UPPER_BONUS, UPPER_TOTAL, YAHTZY_BONUS, LOWER_TOTAL, GRAND_TOTAL};
 	public static final int[] SCORING_CATEGORIES = {ACES, TWOS, THREES, FOURS, FIVES, SIXES,
 			THREE_OF_A_KIND, FOUR_OF_A_KIND, FULL_HOUSE, SMALL_STRAIGHT, LARGE_STRAIGHT, YAHTZY, CHANCE};
 	
@@ -74,7 +74,9 @@ public class Scorecard {
 		boolean result = scores[category].commit(category, dice);
 		
 		updateTotals();
-		turnsRemaining--;
+		if(category != YAHTZY_BONUS) {
+			turnsRemaining--;
+		}
 		
 		return result;
 	}

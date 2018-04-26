@@ -52,7 +52,13 @@ public class Game {
 	}
 	
 	public static void recordScore(int category) {
-		players[playerTurn].getScorecard().commit(category, dice);
+		Scorecard s = players[playerTurn].getScorecard();
+		
+		if(s.getScore(Scorecard.YAHTZY) == 50) {
+			s.commit(Scorecard.YAHTZY_BONUS, dice);
+		}
+		
+		s.commit(category, dice);
 		
 		if(players[playerTurn].getTurnsRemaining() == 0) {
 			gameState[playerTurn] = GAME_OVER;
