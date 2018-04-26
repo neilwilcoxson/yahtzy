@@ -37,10 +37,6 @@ public class GUI extends JPanel implements ActionListener {
 	protected static JMenuItem highScoresOption = null;
 	protected static JMenuItem quitOption = null;
 	
-	protected static JMenu helpMenu = null;
-	protected static JMenuItem helpOption = null;
-	protected static JMenuItem aboutOption = null;
-	
 	//Player info UI Elements
 	protected static JPanel sidePanel = null;
 	protected static GridLayout sidePanelLayout = null;
@@ -156,21 +152,6 @@ public class GUI extends JPanel implements ActionListener {
 		quitOption.addActionListener(menuHelper);
 		gameMenu.add(quitOption);
 		
-		helpMenu = new JMenu("Help");
-		
-		helpOption = new JMenuItem("Help");
-		helpOption.setMnemonic(KeyEvent.VK_F1);
-		helpOption.setActionCommand("Help");
-		helpOption.addActionListener(menuHelper);
-		helpMenu.add(helpOption);
-		
-		aboutOption = new JMenuItem("About");
-		aboutOption.setActionCommand("About");
-		aboutOption.addActionListener(menuHelper);
-		helpMenu.add(aboutOption);
-		
-		menuBar.add(helpMenu);
-		
 		mainGUI = new GUI();
 		mainGUI.setOpaque(true);
 		mainFrame.setContentPane(mainGUI);
@@ -264,6 +245,7 @@ public class GUI extends JPanel implements ActionListener {
 			
 		case Game.MAY_SCORE:
 			rollButton.setEnabled(true);
+			//scorecards[Game.getCurrentPlayerID()]
 			break;
 			
 		case Game.MUST_SCORE:

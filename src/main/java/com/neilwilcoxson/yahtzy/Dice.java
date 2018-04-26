@@ -7,12 +7,16 @@ public class Dice {
 	protected static final int MAX_VALUE = 6;
 	protected static int[] statistics = null;
 	
+	protected static Object mutex = new Object();
+	
 	public Dice() {
-		if(statistics == null) {
-			statistics = new int[MAX_VALUE-MIN_VALUE+1];
-			
-			for(int i = 0; i < MAX_VALUE-MIN_VALUE+1; i++) {
-				statistics[i] = 0;
+		synchronized(mutex){
+			if(statistics == null) {
+				int[] temp = new int[MAX_VALUE-MIN_VALUE+1];
+				for(int i = 0; i < MAX_VALUE-MIN_VALUE+1; i++) {
+					temp[i] = 0;
+				}
+				statistics = temp;
 			}
 		}
 		

@@ -55,6 +55,10 @@ public class Game {
 		}
 	}
 	
+	public static int calculateScore(int category) {
+		return players[playerTurn].getScorecard().score(category, dice);
+	}
+	
 	public static void recordScore(int category) {
 		Scorecard s = players[playerTurn].getScorecard();
 		
