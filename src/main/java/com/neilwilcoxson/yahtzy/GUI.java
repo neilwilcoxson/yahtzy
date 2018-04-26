@@ -92,7 +92,7 @@ public class GUI extends JPanel implements ActionListener {
 				namePromptPanel.add(nameEntries[i]);
 			}
 			
-			confirm = JOptionPane.showConfirmDialog(null, namePromptPanel, "Enter player names", JOptionPane.OK_CANCEL_OPTION);
+			confirm = JOptionPane.showConfirmDialog(null, namePromptPanel, "Enter player name(s)", JOptionPane.OK_CANCEL_OPTION);
 			
 		}while(confirm == JOptionPane.CANCEL_OPTION);
 		
@@ -176,6 +176,7 @@ public class GUI extends JPanel implements ActionListener {
 		
 		playerTurn = new JLabel();
 		playerTurn.setText(Game.getPlayerName() + "'s Turn, Rolls Remaining: " + Game.getRollsRemaining());
+		playerTurn.setHorizontalAlignment(JLabel.CENTER);
 		sidePanel.add(playerTurn);
 	}
 	
