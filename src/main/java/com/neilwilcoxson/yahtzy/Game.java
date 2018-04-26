@@ -19,23 +19,25 @@ public class Game {
 	protected static int playerTurn;
 	protected static int rollsRemaining;
 	protected static int[] gameState;
+	protected static String[] gameConfig;
 	
-	//IDEA: have dice in separate window from scorecard
 	//IDEA: have possible scores pop up when mouse hovers over category
 	
 	public static void main(String[] args) {
-		GUI.config();
-		GUI.draw();
+		gameConfig = GUI.config();
 		initGame();
+		GUI.draw();
 	}
 	
 	public static void initGame() {
 		playerTurn = 0;
 		rollsRemaining = NUM_ROLLS;
 		
-		players = new Player[2];
-		players[0] = new Player("Bob");
-		players[1] = new Player("Tim");
+		players = new Player[Integer.parseInt(gameConfig[0])];
+		
+		for(int i = 1; i < gameConfig.length; i++) {
+			players[i-1] = new Player(gameConfig[i]);
+		}
 		
 		dice = new Dice[NUM_DICE];
 		

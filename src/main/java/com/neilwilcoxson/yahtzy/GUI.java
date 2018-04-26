@@ -64,22 +64,47 @@ public class GUI extends JPanel implements ActionListener {
 		});
 	}
 	
-	public static void config() {
+	public static String[] config() {
+		String[] result = null;
+		
+		JPanel namePromptPanel = null;
+		JTextField[] nameEntries = null;
+		
+		int confirm;
 		int numPlayers = 0;
+		String s;
 		
 		do {
-			String s = JOptionPane.showInputDialog("Enter number of players");
-			numPlayers = Integer.parseInt(s);
-		}while(numPlayers <= 0);
+			do {
+				numPlayers = 0;
+				s = JOptionPane.showInputDialog("Enter number of players");
+				if(s != null && s.matches("[0-9]+")) {
+					numPlayers = Integer.parseInt(s);
+				}
+			}while(numPlayers <= 0);
+			
+			namePromptPanel = new JPanel(new GridLayout(0,1));
+			nameEntries = new JTextField[numPlayers];
+			
+			for(int i = 0; i < numPlayers; i++) {
+				nameEntries[i] = new JTextField();
+				nameEntries[i].setColumns(20);
+				nameEntries[i].setEditable(true);
+				namePromptPanel.add(nameEntries[i]);
+			}
+			
+			confirm = JOptionPane.showConfirmDialog(null, namePromptPanel, "Enter player names", JOptionPane.OK_CANCEL_OPTION);
+			
+		}while(confirm == JOptionPane.CANCEL_OPTION);
 		
-		JPanel namePromptPanel = new JPanel(new GridLayout(0,1));
-		JTextField[] nameEntries = new JTextField[numPlayers];
+		result = new String[numPlayers+1];
+		result[0] = s;
 		
-		for(int i = 0; i < numPlayers; i++) {
-			namePromptPanel.add(nameEntries[i]);
+		for(int i = 1; i <= numPlayers; i++) {
+			result[i] = nameEntries[i-1].getText();
 		}
 		
-		//TODO resume here
+		return result;
 	}
 	
 	protected static void doDrawGUI() {
