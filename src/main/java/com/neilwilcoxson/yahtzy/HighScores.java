@@ -25,6 +25,17 @@ public class HighScores {
 	@XmlElement(name = "Record")
 	protected ArrayList<Record> recordList;
 	
+	public Object[][] getData(){
+		Object[][] result = new Object[recordList.size()][2];
+		
+		for(int i = 0; i < recordList.size(); i++) {
+			result[i][0] = recordList.get(i).getName();
+			result[i][1] = recordList.get(i).getScore();
+		}
+		
+		return result;
+	}
+	
 	public void sort() {
 		Collections.sort(recordList, new Record());
 	}

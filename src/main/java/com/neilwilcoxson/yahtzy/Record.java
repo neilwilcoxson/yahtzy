@@ -33,6 +33,6 @@ public class Record implements Comparator<Record> {
 	
 	@Override
 	public int compare(Record a, Record b) {
-		return a.score < b.score ? -1 : a.score == b.score ? 0 : 1;
+		return a.score > b.score ? -1 : a.score == b.score ? 0 : 1;
 	}
 }

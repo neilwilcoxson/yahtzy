@@ -15,6 +15,7 @@ public class Game {
 	
 	protected static Player[] players = null;
 	protected static Dice[] dice = null;
+	protected static HighScores hs = null;
 	
 	protected static int playerTurn;
 	protected static int rollsRemaining;
@@ -164,9 +165,7 @@ public class Game {
 		}
 	}
 	
-	public static void saveHighScores() {
-		HighScores hs = null;
-		
+	public static Object[][] getHighScores() {
 		File f = new File(HighScores.FILENAME);
 		
 		if(f.exists() && !f.isDirectory()) {
@@ -174,6 +173,14 @@ public class Game {
 		}else {
 			hs = new HighScores();
 		}
+		
+		hs.sort();
+		
+		return hs.getData();
+	}
+	
+	public static void saveHighScores() {
+		getHighScores();
 		
 		for(Player p : players) {
 			hs.add(new Record(p));
