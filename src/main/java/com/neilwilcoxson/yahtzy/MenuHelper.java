@@ -29,8 +29,8 @@ public class MenuHelper extends JPanel implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand().equals("New Game")) {
-			GUI.reset();
 			Game.initGame();
+			GUI.reset();
 		}else if(e.getActionCommand().equals("View Scores")) {
 			drawHSTable(Game.getHighScores());
 		}else if(e.getActionCommand().equals("Quit")) {

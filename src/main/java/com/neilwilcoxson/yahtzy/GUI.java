@@ -219,7 +219,6 @@ public class GUI extends JPanel implements ActionListener {
 	}
 	
 	protected static void displayDiceStatistics() {
-		//display dice statistics
 		int[] stats = Dice.getStatistics();
 		Object[][] data = new Object[stats.length][2];
 		
@@ -237,6 +236,19 @@ public class GUI extends JPanel implements ActionListener {
 		JScrollPane scrollPane = new JScrollPane(diceTable);
 		
 		JOptionPane.showMessageDialog(null, scrollPane, "Dice Statistics", JOptionPane.DEFAULT_OPTION);
+	}
+	
+	protected static void playAgainDialog() {
+		JLabel label = new JLabel("Play again?");
+		
+		int result = JOptionPane.showConfirmDialog(null, label, "New Game", JOptionPane.YES_NO_OPTION);
+		
+		if(result == 1) {
+			System.exit(0);
+		}else {
+			Game.initGame();
+			GUI.reset();
+		}
 	}
 
 	@Override
@@ -300,6 +312,7 @@ public class GUI extends JPanel implements ActionListener {
 			
 			Game.saveHighScores();
 			GUI.displayDiceStatistics();
+			GUI.playAgainDialog();
 			
 			break;
 			
@@ -307,6 +320,8 @@ public class GUI extends JPanel implements ActionListener {
 	}
 	
 	public static void reset() {
+		playerTurn.setText(Game.getPlayerName() + "'s Turn, Rolls Remaining: " + Game.getRollsRemaining());
+		
 		rollButton.setEnabled(true);
 		
 		for(int i = 0; i < Game.NUM_DICE; i++) {
