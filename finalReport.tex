@@ -1,7 +1,12 @@
 \documentclass[12pt]{article}
 \pagestyle{empty}
 \textheight = 10in
-\addtolength{\voffset}{-1in}
+\addtolength{\oddsidemargin}{-.875in}
+	\addtolength{\evensidemargin}{-.875in}
+	\addtolength{\textwidth}{1.75in}
+
+	\addtolength{\topmargin}{-.875in}
+	\addtolength{\textheight}{1.75in}
 
 \usepackage{graphicx}
 \usepackage{hyperref}
@@ -14,28 +19,28 @@
 
 \begin{document}
 
+
 \maketitle 
-\thispagestyle{empty}
 
 \noindent Link to repository: \newline
 \url{https://github.com/neilwilcoxson/yahtzy}
 
 \section*{Abstract}
 
-Insert Abstract Here
+Over the 26 hours that this project took to complete, about 1400 lines of code were written, a UI was designed, and testing was performed.  The use cases set at the beginning of the project were fulfilled.  However, after reaching the end, it has became apparent that it would be possible to have many more iterations of the development process, adding new features and so on.
 
 \section*{Background}
 Yahtzy is an extended digital of Hasbro's popular dice game, Yahtzee.  While playing with physical dice and paper scorecards can be fun, this digital version seeks to make gameplay faster and easier.  Furthermore, the autocalculation and hint features help new players learn how to play the game.
 
 \section*{Schedule}
-\includegraphics[scale=.16]{diagrams/gnatt.png}
+\includegraphics[scale=.21]{diagrams/gnatt.png}
 
 \newpage
 \section*{Requirements}
 \begin{enumerate}
 	\item Player can start a new game
 	\item Multiple players can play together
-	\item Player can select game options (normal or tripple mode)
+	\item Player can select game options (number of players, name each player, etc.)
 	\item Player can roll dice
 	\item Player can select which dice to hold
 	\item Player can select where to score their rolls
@@ -69,7 +74,7 @@ Yahtzy is an extended digital of Hasbro's popular dice game, Yahtzee.  While pla
 	\item Application is ready for the first player to take their first turn
 \end{enumerate}
 
-\vspace*{.3in}
+\vspace*{.5in}
 
 \item {\bf UC2: Taking a turn} \newline
 {\bf Scope:} Yahtzy Application \newline
@@ -93,7 +98,7 @@ Yahtzy is an extended digital of Hasbro's popular dice game, Yahtzee.  While pla
 \indent 3.* Player wants to keep all dice they rolled and score immediately \newline
 \indent 3.1 Jump to step 5 \newline
 
-\vspace*{.3in}
+\newpage
 \item \textbf{UC3: View previous high scores} \newline
 \textbf{Scope:} Yahtzy Application \newline
 \textbf{Level:} user goal \newline
@@ -118,18 +123,19 @@ Yahtzy is an extended digital of Hasbro's popular dice game, Yahtzee.  While pla
 \end{enumerate}
 
 \subsection*{System Sequence}
-\includegraphics[scale=.3]{diagrams/sequence.png}
+\includegraphics[scale=.28]{diagrams/sequence.png}
 
+\newpage
 \subsection*{Operation Contracts}
 As stated in Larman's book, not all artifacts will always be needed.  In the case of a game for which nearly everyone is familiar with the rules, these are not necessary in this case.
 
-\newpage
 \section*{Design}
 \subsection*{Concepts}
 The main conepts were mostly based on the physical objects involved in playing the game (scorecard, dice, player), along with well understood objects like the game and record.  \newline \vspace{.2in}
 
-\includegraphics[scale=.3]{diagrams/domainModel.png}
+\includegraphics[scale=.38]{diagrams/domainModel.png}
 
+\newpage
 \subsection*{GRASP}
 \begin{list}{}{}
 \item \textbf{Information Expert}\newline
@@ -151,7 +157,7 @@ Each object is responsible only for doing things directly related to it.  If it 
 Polymorphism is used heavily in the ScorecardLine classes for which each method of scoring has its own class which extends the abstract ScorecardLine class.
 
 \item \textbf{Pure Fabrication}\newline
-Some classes do not correspond to a real life object.  For example, MenuHelper does isn't the menu itself, but it helps perform actions relating to the menu.
+Some classes do not correspond to a real life object.  For example, MenuHelper is not the menu itself, but it helps perform actions relating to the menu.
 
 \item \textbf{Indirection}\newline
 The Game object mediates between the GUI and other game elements.
@@ -160,6 +166,8 @@ The Game object mediates between the GUI and other game elements.
 The main source of variability is user input.  The objects responsible for gathering this information verify the input, and do not pass it along if it is known to be invalid.
 
 \end{list}
+
+\vspace*{.15in}
 \subsection*{Design Patterns}
 Although many more design patterns were used in the making of this application, here are five major ones.
 
@@ -168,6 +176,9 @@ Although many more design patterns were used in the making of this application, 
 All of the scorecard categories inherit from a common ScorecardLine class.  This allows them each to implement their own method for scoring the dice, which is taken advantage of by dynamic binding.
 \item \textbf{Facade}\newline
 The Game class is a Facade as it arranges all of the game logic for the GUI.  Thus the GUI does not have to interact with each element of game logic directly.
+
+\newpage
+
 \item \textbf{Bridge}\newline
 Certain methods of each class are implemented with compatibility in mind.  For example, the Game class implements a getDiceValues method, because the GUI does not need to know about the enitre Dice object, but rather just the values.
 
@@ -186,7 +197,7 @@ This application was implemented using Java SE using Swing as the front end.  Th
 The logical components of the game were tested using JUnit 5 test cases.  However, the graphical components of the game often had no means for testing via JUnit.  These elements were tested manually.  SpotBugs was also used to help identify bugs.  Furthermore prerelease versions of the game were sent to a small group of beta testers who were asked to make suggestions for improvements to the game.  This suggestions were taken into account before the final release.
 
 \section*{Conclusion}
-Software Engineering is always subject to the opinions and the people doing it.  This project has taken 26 hours up to this point, but it is hard to say whether it is actually done.
+Over the course of this project, many new things were attempted, and the original plans were modified multiple times.  The main takeaway from this project is the discovery of just how ambiguous Software Engineering can be.  Only when an idea becomes code does it become more concrete.  Even then, what the client wanted can suddenly change.  This project has taken 26 hours up to this point, but that does not mean that it is finished.  Yes, the software fulfills the use cases set out earlier in this document, but there are still many improvements that could be made in potential future revisions.  The UI could be more elegant, there could be more gameplay modes, and it could even have networked multiplayer capabilities.  In this sense, no project of this sort is ever really done.
 
 \end{document}
 
