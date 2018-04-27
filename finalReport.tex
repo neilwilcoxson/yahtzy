@@ -132,15 +132,33 @@ The main conepts were mostly based on the physical objects involved in playing t
 
 \subsection*{GRASP}
 \begin{list}{}{}
-\item Information Expert
-\item Creator
-\item Controller
-\item Low Coupling
-\item High Cohesion
-\item Polymorphism
-\item Pure Fabrication
-\item Indirection
-\item Protected Variations
+\item \textbf{Information Expert}\newline
+The scorecard is the information expert.  Given several dice, it knows how to score them in each category.
+
+\item \textbf{Creator}\newline
+The GUI class creates all ofthe GUI elements.
+
+\item \textbf{Controller}\newline
+The Game class controls all aspects of execution of the application.
+
+\item \textbf{Low Coupling}\newline
+Simple public methods are created to prevent outside classes from having to call multiple private or protected methods.
+
+\item \textbf{High Cohesion}\newline
+Each object is responsible only for doing things directly related to it.  If it is unrelated it is delegated to another class.
+
+\item \textbf{Polymorphism}\newline
+Polymorphism is used heavily in the ScorecardLine classes for which each method of scoring has its own class which extends the abstract ScorecardLine class.
+
+\item \textbf{Pure Fabrication}\newline
+Some classes do not correspond to a real life object.  For example, MenuHelper does isn't the menu itself, but it helps perform actions relating to the menu.
+
+\item \textbf{Indirection}\newline
+The Game object mediates between the GUI and other game elements.
+
+\item \textbf{Protected Variations}\newline
+The main source of variability is user input.  The objects responsible for gathering this information verify the input, and do not pass it along if it is known to be invalid.
+
 \end{list}
 \subsection*{Design Patterns}
 Although many more design patterns were used in the making of this application, here are five major ones.
@@ -160,15 +178,15 @@ In order to respond to the GUI, the Observer pattern is used.  The buttons prese
 \end{enumerate}
 
 \section*{Implementation}
-This application was implemented using Java SE using Swing as the front end.  The source code is available at the repository for the project:
+This application was implemented using Java SE using Swing as the front end.  The source code is available at the repository for the project:\newline
 \url{https://github.com/neilwilcoxson/yahtzy}\newline\newline
-\noindent The logical line count for the entire application at the time of this report was xxxx lines.
+\noindent The logical line count for the entire application at the time of this report was 1344 lines.
 
 \section*{Evaluation and Testing}
 The logical components of the game were tested using JUnit 5 test cases.  However, the graphical components of the game often had no means for testing via JUnit.  These elements were tested manually.  SpotBugs was also used to help identify bugs.  Furthermore prerelease versions of the game were sent to a small group of beta testers who were asked to make suggestions for improvements to the game.  This suggestions were taken into account before the final release.
 
 \section*{Conclusion}
-Software Engineering is always subject to the opinions and the people doing it.
+Software Engineering is always subject to the opinions and the people doing it.  This project has taken 26 hours up to this point, but it is hard to say whether it is actually done.
 
 \end{document}
 

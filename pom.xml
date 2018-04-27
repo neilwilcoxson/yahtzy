@@ -4,11 +4,11 @@
 
   <groupId>com.neilwilcoxson</groupId>
   <artifactId>yahtzy</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0</version>
   <packaging>jar</packaging>
 
   <name>yahtzy</name>
-  <url>http://maven.apache.org</url>
+  <url>https://github.com/neilwilcoxson/yahtzy</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -16,10 +16,33 @@
   
   <dependencies>
         <dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.0.0</version>
-		</dependency>
-    </dependencies>
+		    <groupId>org.junit.jupiter</groupId>
+		    <artifactId>junit-jupiter-api</artifactId>
+		    <version>5.0.3</version>
+		    <scope>test</scope>
+	  	</dependency>
+  </dependencies>
+  
+  <build>
+  <plugins>        
+    <plugin>
+      <artifactId>maven-surefire-plugin</artifactId>
+      <!-- latest version (2.20.1) does not work well with JUnit5 -->
+      <version>2.19.1</version>
+      <dependencies>
+      			<dependency>
+			          <groupId>org.junit.platform</groupId>
+			          <artifactId>junit-platform-surefire-provider</artifactId>
+			          <version>1.0.3</version>
+        		</dependency>
+        		<dependency>
+          			<groupId>org.junit.jupiter</groupId>
+          			<artifactId>junit-jupiter-engine</artifactId>
+          			<version>5.0.3</version>
+        		</dependency>
+      		</dependencies>
+    	</plugin>
+ 	</plugins>
+	</build>
 
 </project>
