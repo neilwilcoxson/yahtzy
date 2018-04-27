@@ -9,6 +9,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+/**
+ * 
+ * @author Neil Wilcoxson
+ *
+ */
 public class MenuHelper extends JPanel implements ActionListener{
 	private static final long serialVersionUID = -868522479001593589L;
 	

@@ -1,5 +1,10 @@
 package com.neilwilcoxson.yahtzy;
 
+/**
+ * 
+ * @author Neil Wilcoxson
+ *
+ */
 public class Total extends ScorecardLine {
 	
 	public Total() {

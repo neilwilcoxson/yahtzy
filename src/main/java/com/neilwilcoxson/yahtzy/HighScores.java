@@ -16,6 +16,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * 
+ * @author Neil Wilcoxson
+ *
+ */
 @XmlRootElement(name = "HighScores")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HighScores {

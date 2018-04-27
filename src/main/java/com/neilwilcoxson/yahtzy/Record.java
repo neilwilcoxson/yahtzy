@@ -2,6 +2,11 @@ package com.neilwilcoxson.yahtzy;
 
 import java.util.Comparator;
 
+/**
+ * 
+ * @author Neil Wilcoxson
+ *
+ */
 public class Record implements Comparator<Record> {
 	protected String name = null;
 	protected int score = 0;

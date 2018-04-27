@@ -1,5 +1,10 @@
 package com.neilwilcoxson.yahtzy;
 
+/**
+ * 
+ * @author Neil Wilcoxson
+ *
+ */
 public class Player {
 	protected static int numPlayers = 0;
 	protected String name = null;

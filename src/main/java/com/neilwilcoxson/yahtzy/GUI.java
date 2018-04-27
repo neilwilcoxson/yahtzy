@@ -20,6 +20,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+/**
+ * 
+ * @author Neil Wilcoxson
+ *
+ */
 public class GUI extends JPanel implements ActionListener {
 	private static final long serialVersionUID = -5934960568302094412L;
 	

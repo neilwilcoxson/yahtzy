@@ -2,6 +2,11 @@ package com.neilwilcoxson.yahtzy;
 
 import java.util.Arrays;
 
+/**
+ * 
+ * @author Neil Wilcoxson
+ *
+ */
 public class Scorecard {
 	protected static final int NUM_CATEGORIES = 19;
 	protected ScorecardLine[] scores = null;

@@ -1,5 +1,10 @@
 package com.neilwilcoxson.yahtzy;
 
+/**
+ * 
+ * @author Neil Wilcoxson
+ *
+ */
 public class Kind extends ScorecardLine {
 
 	@Override

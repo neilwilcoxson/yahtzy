@@ -1,5 +1,10 @@
 package com.neilwilcoxson.yahtzy;
 
+/**
+ * 
+ * @author Neil Wilcoxson
+ *
+ */
 public class UpperBonus extends ScorecardLine {
 	
 	public static final int CATEGORY_VALUE = 35;

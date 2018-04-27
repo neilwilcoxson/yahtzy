@@ -2,6 +2,11 @@ package com.neilwilcoxson.yahtzy;
 
 import java.io.File;
 
+/**
+ * 
+ * @author Neil Wilcoxson
+ *
+ */
 public class Game {
 	public static final int NUM_DICE = 5;
 	public static final int NUM_ROLLS = 3;

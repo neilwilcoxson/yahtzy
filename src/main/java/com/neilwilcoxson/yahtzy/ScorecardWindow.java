@@ -11,6 +11,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+/**
+ * 
+ * @author Neil Wilcoxson
+ *
+ */
 public class ScorecardWindow extends JPanel implements ActionListener{
 	private static final long serialVersionUID = 5663714488996350021L;
 	

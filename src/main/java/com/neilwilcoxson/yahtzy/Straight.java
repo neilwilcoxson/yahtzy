@@ -1,5 +1,10 @@
 package com.neilwilcoxson.yahtzy;
 
+/**
+ * 
+ * @author Neil Wilcoxson
+ *
+ */
 public class Straight extends ScorecardLine {
 	public static final int SMALL_STRAIGHT_VALUE = 30;
 	public static final int LARGE_STRAIGHT_VALUE = 40;
