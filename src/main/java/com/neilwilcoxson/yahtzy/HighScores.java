@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "HighScores")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HighScores {
-	public static final String FILENAME = "high_scores.xml"; 
+	public static final String FILENAME = "./high_scores.xml"; 
 
 	@XmlElementWrapper
 	@XmlElement(name = "Record")
